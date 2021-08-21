@@ -29,6 +29,14 @@ targetCompatibility = JavaVersion.VERSION_11
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "skipped", "failed", "passed"
+    }
+    //if true show println in test console
+    testLogging.showStandardStreams = false
+
+    // start tests every time, even when code not changed
+    outputs.upToDateWhen { false }
 }
 
 dependencies {
@@ -42,10 +50,14 @@ dependencies {
     implementation "org.http4k:http4k-server-undertow"
     implementation "org.http4k:http4k-cloudnative"
     implementation "dev.forkhandles:result4k"
+    implementation "dev.forkhandles:values4k"
 
     testImplementation "org.http4k:http4k-testing-chaos"
     testImplementation "org.http4k:http4k-testing-strikt"
     testImplementation "org.http4k:http4k-testing-webdriver"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation 'com.ubertob.pesticide:pesticide-core:1.6.4'
+
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 }
