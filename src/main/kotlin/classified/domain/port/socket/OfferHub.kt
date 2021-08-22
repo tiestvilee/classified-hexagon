@@ -16,4 +16,5 @@ interface OfferHub {
     fun acceptOffer(offerId: OfferId): Result<Unit, OfferHubError>
     fun offer(offerId: OfferId): Result<Offer, OfferHubError>
     fun itemMailed(offerId: OfferId): Result<Unit, OfferHubError>
+    fun itemReceived(offerId: OfferId): Result<Unit, OfferHubError>
 }

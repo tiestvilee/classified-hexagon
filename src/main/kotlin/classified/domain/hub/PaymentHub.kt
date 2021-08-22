@@ -15,4 +15,8 @@ class PaymentHub(private val repository: PaymentRepository) : classified.domain.
         return repository.createPayment(offerId, address, cardDetails, amount)
     }
 
+    override fun payment(paymentId: PaymentId): Result<Payment, PaymentHubError> {
+        return repository.payment(paymentId)
+    }
+
 }

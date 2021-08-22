@@ -14,4 +14,4 @@ enum class AdState {
 
 data class AdDetails(val name: String, val askingPrice: Money)
 
-data class Ad(val id: AdId, val details: AdDetails)
+data class Ad(val id: AdId, val state: AdState, val details: AdDetails)

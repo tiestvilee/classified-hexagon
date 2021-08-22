@@ -14,4 +14,6 @@ interface PaymentHub {
         cardDetails: CardDetails,
         amount: Money
     ): Result<PaymentId, PaymentHubError>
+
+    fun payment(paymentId: PaymentId): Result<Payment, PaymentHubError>
 }

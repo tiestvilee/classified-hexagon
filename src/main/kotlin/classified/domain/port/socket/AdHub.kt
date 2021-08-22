@@ -12,4 +12,5 @@ sealed class AdHubError(message: String) : Exception(message) {
 interface AdHub {
     fun createAd(item: AdDetails): Result<AdId, AdHubError>
     fun findAdByName(adName: String): Result<Ad, AdHubError>
+    fun ad(adId: AdId): Result<Ad, AdHubError>
 }

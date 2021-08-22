@@ -15,4 +15,8 @@ class AdHub(private val repo: AdRepository) : classified.domain.port.socket.AdHu
     override fun findAdByName(adName: String): Result<Ad, AdHubError> {
         return repo.findAdByName(adName)
     }
+
+    override fun ad(adId: AdId): Result<Ad, AdHubError> {
+        return repo.ad(adId)
+    }
 }

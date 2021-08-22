@@ -44,13 +44,13 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
 
     fun `receives item and payment is settled`() = step() { ctx ->
         itemReceived(offerId(ctx))
-        assertThat(stateOf(ctx.get().paymentId!!), equalTo(PaymentState.Settled))
         assertThat(stateOf(offerId(ctx)), equalTo(OfferState.Completed))
         assertThat(stateOf(itemId(ctx)), equalTo(AdState.Completed))
+        assertThat(stateOf(ctx.get().paymentId!!), equalTo(PaymentState.Settled))
     }
 
 }
 
-private fun ClassifiedUser.itemId(ctx: StepContext<JourneyContext>) = ctx.get().adId!!
+private fun itemId(ctx: StepContext<JourneyContext>) = ctx.get().adId!!
 
-private fun ClassifiedUser.offerId(ctx: StepContext<JourneyContext>) = ctx.get().offerId!!
+private fun offerId(ctx: StepContext<JourneyContext>) = ctx.get().offerId!!

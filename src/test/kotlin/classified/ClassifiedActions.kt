@@ -60,18 +60,18 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
     }
 
     fun itemReceived(offerId: OfferId) {
-        TODO("Not yet implemented")
+        offerHub.itemReceived(offerId)
     }
 
     fun stateOf(paymentId: PaymentId): PaymentState {
-        TODO("Not yet implemented")
+        return paymentHub.payment(paymentId).orThrow().state
     }
 
     fun stateOf(offerId: OfferId): OfferState {
-        TODO("Not yet implemented")
+        return offerHub.offer(offerId).orThrow().state
     }
 
     fun stateOf(adId: AdId): AdState {
-        TODO("Not yet implemented")
+        return adHub.ad(adId).orThrow().state
     }
 }

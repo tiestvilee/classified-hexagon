@@ -37,4 +37,14 @@ class OfferHub(private val repo: OfferRepository) : classified.domain.port.socke
             Failure(it)
         }.get()
     }
+
+    override fun itemReceived(offerId: OfferId): Result<Unit, OfferHubError> {
+        return repo.offer(offerId).flatMap {
+            repo.updateOffer(it.copy(state = OfferState.Completed))
+        }.map {
+            Success(Unit)
+        }.mapFailure {
+            Failure(it)
+        }.get()
+    }
 }
