@@ -2,9 +2,11 @@ package classified
 
 import classified.domain.adapter.InMemoryAdRepository
 import classified.domain.adapter.InMemoryOfferRepository
+import classified.domain.adapter.InMemoryPaymentRepository
 import classified.domain.model.*
 import classified.domain.port.socket.AdHub
 import classified.domain.port.socket.OfferHub
+import classified.domain.port.socket.PaymentHub
 import com.ubertob.pesticide.core.*
 import dev.forkhandles.result4k.orThrow
 
@@ -16,12 +18,16 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         // do something?
     }
 
-    val adHub: AdHub = classified.domain.hub.AdHub(
+    private val adHub: AdHub = classified.domain.hub.AdHub(
         InMemoryAdRepository()
     )
 
-    val offerHub: OfferHub = classified.domain.hub.OfferHub(
+    private val offerHub: OfferHub = classified.domain.hub.OfferHub(
         InMemoryOfferRepository()
+    )
+
+    private val paymentHub: PaymentHub = classified.domain.hub.PaymentHub(
+        InMemoryPaymentRepository()
     )
 
     fun createAd(item: AdDetails): AdId {
@@ -37,7 +43,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
     }
 
     fun itemMailed(offerId: OfferId) {
-        TODO("Not yet implemented")
+        offerHub.itemMailed(offerId).orThrow()
     }
 
     fun findItem(itemName: String): AdId {
@@ -49,7 +55,8 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
     }
 
     fun createPayment(offerId: OfferId, address: Address, cardDetails: CardDetails): PaymentId {
-        TODO("Not yet implemented")
+        val offer = offerHub.offer(offerId).orThrow()
+        return paymentHub.createPayment(offerId, address, cardDetails, offer.details.offer).orThrow()
     }
 
     fun itemReceived(offerId: OfferId) {

@@ -14,4 +14,6 @@ interface OfferHub {
     fun createOffer(offer: OfferDetails): Result<OfferId, OfferHubError>
     fun offersFor(adId: AdId): Result<List<Offer>, OfferHubError>
     fun acceptOffer(offerId: OfferId): Result<Unit, OfferHubError>
+    fun offer(offerId: OfferId): Result<Offer, OfferHubError>
+    fun itemMailed(offerId: OfferId): Result<Unit, OfferHubError>
 }

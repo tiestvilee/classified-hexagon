@@ -20,6 +20,7 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
             { it }
         ).id
         acceptOffer(offerId)
+        ctx.store(ctx.get().copy(offerId = offerId))
     }
 
     fun `mails item`() = step() { ctx ->
