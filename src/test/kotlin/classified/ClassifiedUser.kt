@@ -6,10 +6,10 @@ import com.natpryce.hamkrest.equalTo
 import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.core.StepContext
 
-data class JourneyContext(val itemId: ItemId? = null, val offerId: OfferId? = null, val paymentId: PaymentId? = null)
+data class JourneyContext(val adId: AdId? = null, val offerId: OfferId? = null, val paymentId: PaymentId? = null)
 
 class ClassifiedUser(override val name: String) : DdtActorWithContext<ClassifiedActions, JourneyContext>() {
-    fun `advertises item #`(item: ItemDetails) = step(item.name) { ctx ->
+    fun `advertises item #`(item: AdDetails) = step(item.name) { ctx ->
         val itemId = createAd(item)
         ctx.store(JourneyContext(itemId))
     }
@@ -36,11 +36,11 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
         itemReceived(offerId(ctx))
         assertThat(stateOf(ctx.get().paymentId!!), equalTo(PaymentState.Settled))
         assertThat(stateOf(offerId(ctx)), equalTo(OfferState.Completed))
-        assertThat(stateOf(itemId(ctx)), equalTo(ItemState.Completed))
+        assertThat(stateOf(itemId(ctx)), equalTo(AdState.Completed))
     }
 
 }
 
-private fun ClassifiedUser.itemId(ctx: StepContext<JourneyContext>) = ctx.get().itemId!!
+private fun ClassifiedUser.itemId(ctx: StepContext<JourneyContext>) = ctx.get().adId!!
 
 private fun ClassifiedUser.offerId(ctx: StepContext<JourneyContext>) = ctx.get().offerId!!

@@ -13,7 +13,7 @@ class ClassifiedDDT : DomainDrivenTest<ClassifiedActions>(setOf(ClassifiedAction
         setUp {
             usersExistInTheSystem(buyer, seller)
         }.thenPlay(
-            seller.`advertises item #`(ItemDetails("Baseball Card", Money(100))),
+            seller.`advertises item #`(AdDetails("Baseball Card", Money(100))),
             buyer.`offers to buy item for #`(Money(90)),
             seller.`accepts offer`(),
             buyer.`authorises payment`(Address("my home"), CardDetails(CardType.Amex)),

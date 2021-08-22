@@ -11,5 +11,5 @@ enum class OfferState {
     Offered, Accepted, OutForDelivery, Completed
 }
 
-data class OfferDetails(val itemId: ItemId, val offer: Money) {
+data class OfferDetails(val adId: AdId, val offer: Money) {
 }

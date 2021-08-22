@@ -18,7 +18,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         InMemoryAdRepository()
     )
 
-    fun createAd(item: ItemDetails): ItemId {
+    fun createAd(item: AdDetails): AdId {
         return adHub.createAd(item).orThrow()
     }
 
@@ -50,7 +50,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         TODO("Not yet implemented")
     }
 
-    fun stateOf(itemId: ItemId): ItemState {
+    fun stateOf(adId: AdId): AdState {
         TODO("Not yet implemented")
     }
 }
