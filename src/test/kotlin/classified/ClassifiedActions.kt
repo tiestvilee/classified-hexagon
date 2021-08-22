@@ -1,7 +1,10 @@
 package classified
 
+import classified.domain.adapter.InMemoryAdRepository
 import classified.domain.model.*
+import classified.domain.port.socket.AdHub
 import com.ubertob.pesticide.core.*
+import dev.forkhandles.result4k.orThrow
 
 class ClassifiedActions : DomainActions<DdtProtocol> {
     override val protocol: DdtProtocol = DomainOnly
@@ -11,8 +14,12 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         // do something?
     }
 
+    val adHub: AdHub = classified.domain.hub.AdHub(
+        InMemoryAdRepository()
+    )
+
     fun createAd(item: ItemDetails): ItemId {
-        return ItemId.of(1)
+        return adHub.createAd(item).orThrow()
     }
 
     fun acceptOffer(offerId: OfferId) {
