@@ -22,6 +22,11 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
         itemMailed(offerId(ctx))
     }
 
+    fun `finds item #`(itemName: String) = step(itemName) { ctx ->
+        val itemId = findItem(itemName)
+        ctx.store(JourneyContext(itemId))
+    }
+
     fun `offers to buy item for #`(offer: Money) = step(offer) { ctx ->
         val offerId = createOffer(OfferDetails(itemId(ctx), offer))
         ctx.store(ctx.get().copy(offerId = offerId))

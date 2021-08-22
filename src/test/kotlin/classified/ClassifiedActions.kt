@@ -1,8 +1,10 @@
 package classified
 
 import classified.domain.adapter.InMemoryAdRepository
+import classified.domain.adapter.InMemoryOfferRepository
 import classified.domain.model.*
 import classified.domain.port.socket.AdHub
+import classified.domain.port.socket.OfferHub
 import com.ubertob.pesticide.core.*
 import dev.forkhandles.result4k.orThrow
 
@@ -18,6 +20,10 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         InMemoryAdRepository()
     )
 
+    val offerHub: OfferHub = classified.domain.hub.OfferHub(
+        InMemoryOfferRepository()
+    )
+
     fun createAd(item: AdDetails): AdId {
         return adHub.createAd(item).orThrow()
     }
@@ -30,8 +36,12 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         TODO("Not yet implemented")
     }
 
+    fun findItem(itemName: String): AdId {
+        return adHub.findAdByName(itemName).orThrow().id
+    }
+
     fun createOffer(offer: OfferDetails): OfferId {
-        TODO("Not yet implemented")
+        return offerHub.createOffer(offer).orThrow()
     }
 
     fun createPayment(offerId: OfferId, address: Address, cardDetails: CardDetails): PaymentId {

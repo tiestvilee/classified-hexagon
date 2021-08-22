@@ -1,10 +1,11 @@
 package classified.domain.model
 
-import dev.forkhandles.values.IntValue
-import dev.forkhandles.values.IntValueFactory
+import dev.forkhandles.values.UUIDValue
+import dev.forkhandles.values.UUIDValueFactory
+import java.util.*
 
-class OfferId(offerId: Int) : IntValue(offerId) {
-    companion object : IntValueFactory<OfferId>(::OfferId)
+class OfferId(offerId: UUID) : UUIDValue(offerId) {
+    companion object : UUIDValueFactory<OfferId>(::OfferId)
 }
 
 enum class OfferState {
@@ -13,3 +14,5 @@ enum class OfferState {
 
 data class OfferDetails(val adId: AdId, val offer: Money) {
 }
+
+data class Offer(val id: OfferId, val details: OfferDetails)
