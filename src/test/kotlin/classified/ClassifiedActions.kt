@@ -74,4 +74,8 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
     fun stateOf(adId: AdId): AdState {
         return adHub.ad(adId).orThrow().state
     }
+
+    fun paymentSettled(paymentId: PaymentId) {
+        paymentHub.settle(paymentId)
+    }
 }

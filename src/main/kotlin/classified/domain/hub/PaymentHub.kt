@@ -19,4 +19,8 @@ class PaymentHub(private val repository: PaymentRepository) : classified.domain.
         return repository.payment(paymentId)
     }
 
+    override fun settle(paymentId: PaymentId): Result<Unit, PaymentHubError> {
+        TODO("Not yet implemented")
+    }
+
 }

@@ -16,4 +16,5 @@ interface PaymentHub {
     ): Result<PaymentId, PaymentHubError>
 
     fun payment(paymentId: PaymentId): Result<Payment, PaymentHubError>
+    fun settle(paymentId: PaymentId): Result<Unit, PaymentHubError>
 }

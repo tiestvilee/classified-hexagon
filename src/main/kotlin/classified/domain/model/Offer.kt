@@ -9,7 +9,7 @@ class OfferId(offerId: UUID) : UUIDValue(offerId) {
 }
 
 enum class OfferState {
-    Offered, Accepted, OutForDelivery, Completed
+    Offered, Accepted, OutForDelivery, ItemReceived, Completed
 }
 
 data class OfferDetails(val adId: AdId, val offer: Money) {

@@ -19,7 +19,7 @@ class ClassifiedDDT : DomainDrivenTest<ClassifiedActions>(setOf(ClassifiedAction
             seller.`accepts highest offer`(),
             buyer.`authorises payment`(Address("my home"), CardDetails(CardType.Amex)),
             seller.`mails item`(),
-            buyer.`receives item and payment is settled`()
+            buyer.`receives item`()
         )
     }
 }

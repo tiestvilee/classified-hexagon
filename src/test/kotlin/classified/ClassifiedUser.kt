@@ -1,8 +1,6 @@
 package classified
 
 import classified.domain.model.*
-import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
 import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.core.StepContext
 
@@ -15,7 +13,8 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
     }
 
     fun `accepts highest offer`() = step() { ctx ->
-        val offerId: OfferId = findOffersFor(itemId(ctx)).maxOfWith(
+        val adId = adId(ctx)
+        val offerId: OfferId = findOffersFor(adId).maxOfWith(
             { a: Offer, b: Offer -> a.details.offer.amount.compareTo(b.details.offer.amount) },
             { it }
         ).id
@@ -33,7 +32,7 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
     }
 
     fun `offers to buy item for #`(offer: Money) = step(offer) { ctx ->
-        val offerId = createOffer(OfferDetails(itemId(ctx), offer))
+        val offerId = createOffer(OfferDetails(adId(ctx), offer))
         ctx.store(ctx.get().copy(offerId = offerId))
     }
 
@@ -42,15 +41,16 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
         ctx.store(ctx.get().copy(paymentId = paymentId))
     }
 
-    fun `receives item and payment is settled`() = step() { ctx ->
+    fun `receives item`() = step() { ctx ->
         itemReceived(offerId(ctx))
-        assertThat(stateOf(offerId(ctx)), equalTo(OfferState.Completed))
-        assertThat(stateOf(itemId(ctx)), equalTo(AdState.Completed))
-        assertThat(stateOf(ctx.get().paymentId!!), equalTo(PaymentState.Settled))
+//        assertThat(stateOf(offerId(ctx)), equalTo(OfferState.ItemReceived))
+//        paymentSettled(ctx.get().paymentId!!)
+//        assertThat(stateOf(ctx.get().paymentId!!), equalTo(PaymentState.Settled))
+//        assertThat(stateOf(offerId(ctx)), equalTo(OfferState.ItemReceived))
     }
 
 }
 
-private fun itemId(ctx: StepContext<JourneyContext>) = ctx.get().adId!!
+private fun adId(ctx: StepContext<JourneyContext>) = ctx.get().adId!!
 
 private fun offerId(ctx: StepContext<JourneyContext>) = ctx.get().offerId!!
