@@ -28,8 +28,12 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         return adHub.createAd(item).orThrow()
     }
 
+    fun findOffersFor(adId: AdId): List<Offer> {
+        return offerHub.offersFor(adId).orThrow()
+    }
+
     fun acceptOffer(offerId: OfferId) {
-        TODO("Not yet implemented")
+        offerHub.acceptOffer(offerId).orThrow()
     }
 
     fun itemMailed(offerId: OfferId) {

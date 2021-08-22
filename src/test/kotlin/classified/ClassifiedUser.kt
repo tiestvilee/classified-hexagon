@@ -14,8 +14,12 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
         ctx.store(JourneyContext(itemId))
     }
 
-    fun `accepts offer`() = step() { ctx ->
-        acceptOffer(offerId(ctx))
+    fun `accepts highest offer`() = step() { ctx ->
+        val offerId: OfferId = findOffersFor(itemId(ctx)).maxOfWith(
+            { a: Offer, b: Offer -> a.details.offer.amount.compareTo(b.details.offer.amount) },
+            { it }
+        ).id
+        acceptOffer(offerId)
     }
 
     fun `mails item`() = step() { ctx ->

@@ -15,4 +15,4 @@ enum class OfferState {
 data class OfferDetails(val adId: AdId, val offer: Money) {
 }
 
-data class Offer(val id: OfferId, val details: OfferDetails)
+data class Offer(val id: OfferId, val state: OfferState, val details: OfferDetails)
