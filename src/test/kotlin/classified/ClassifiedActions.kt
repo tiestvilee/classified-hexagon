@@ -11,7 +11,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         // do something?
     }
 
-    fun createAd(item: Item): ItemId {
+    fun createAd(item: ItemDetails): ItemId {
         return ItemId.of(1)
     }
 
@@ -23,7 +23,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         TODO("Not yet implemented")
     }
 
-    fun createOffer(offer: Offer): OfferId {
+    fun createOffer(offer: OfferDetails): OfferId {
         TODO("Not yet implemented")
     }
 

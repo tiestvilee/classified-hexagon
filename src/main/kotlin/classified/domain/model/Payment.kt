@@ -11,7 +11,7 @@ enum class PaymentState {
     Authorised, Settled
 }
 
-data class Payment(
+data class PaymentDetails(
     val offerId: OfferId,
     val shippingAddress: Address,
     val cardDetails: CardDetails,

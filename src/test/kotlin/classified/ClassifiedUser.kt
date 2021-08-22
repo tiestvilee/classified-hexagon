@@ -9,7 +9,7 @@ import com.ubertob.pesticide.core.StepContext
 data class JourneyContext(val itemId: ItemId? = null, val offerId: OfferId? = null, val paymentId: PaymentId? = null)
 
 class ClassifiedUser(override val name: String) : DdtActorWithContext<ClassifiedActions, JourneyContext>() {
-    fun `advertises item #`(item: Item) = step(item.name) { ctx ->
+    fun `advertises item #`(item: ItemDetails) = step(item.name) { ctx ->
         val itemId = createAd(item)
         ctx.store(JourneyContext(itemId))
     }
@@ -23,7 +23,7 @@ class ClassifiedUser(override val name: String) : DdtActorWithContext<Classified
     }
 
     fun `offers to buy item for #`(offer: Money) = step(offer) { ctx ->
-        val offerId = createOffer(Offer(itemId(ctx), offer))
+        val offerId = createOffer(OfferDetails(itemId(ctx), offer))
         ctx.store(ctx.get().copy(offerId = offerId))
     }
 

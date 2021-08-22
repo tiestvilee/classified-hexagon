@@ -11,6 +11,6 @@ enum class ItemState {
     Available, UnderOffer, Completed
 }
 
-data class Item(val name: String, val askingPrice: Money) {
+data class ItemDetails(val name: String, val askingPrice: Money) {
 
 }
