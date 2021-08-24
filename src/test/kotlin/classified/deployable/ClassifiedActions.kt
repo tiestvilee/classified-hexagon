@@ -1,4 +1,4 @@
-package classified
+package classified.deployable
 
 import classified.domain.ad.adapter.InMemoryAdRepository
 import classified.domain.ad.port.socket.AdHub

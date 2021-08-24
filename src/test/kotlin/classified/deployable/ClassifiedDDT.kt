@@ -1,4 +1,4 @@
-package classified
+package classified.deployable
 
 import classified.domain.model.AdDetails
 import classified.domain.payment.model.Address

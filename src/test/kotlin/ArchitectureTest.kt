@@ -17,6 +17,7 @@ class ArchitectureTest {
     private val adapter = "adapter"
     private val portSocket = "port.socket"
     private val portPlug = "port.plug"
+    private val deployable = "deployable"
 
     @ArchTest
     val `there are no package cycles` =
@@ -70,6 +71,40 @@ class ArchitectureTest {
                     }
                 }
             }
+        assertThat(results, isEmpty)
+    }
+
+    @Test
+    fun `only deployables can create adapters`() {
+        val results = ClassFileImporter().importClasspath()
+            .filter { it.name.contains(adapter) }
+            .flatMap { adapter ->
+                adapter.constructorCallsToSelf.flatMap { implementer ->
+                    val packageName = implementer.originOwner.packageName
+                    if (packageName.contains(deployable) || packageName.contains(this.adapter)) {
+                        emptyList()
+                    } else {
+                        listOf("${implementer.originOwner.name} constructs ${adapter.name} but isn't in $deployable")
+                    }
+                }
+            }.toSet()
+        assertThat(results, isEmpty)
+    }
+
+    @Test
+    fun `only deployables can create hubs`() {
+        val results = ClassFileImporter().importClasspath()
+            .filter { it.name.contains(domainHub) }
+            .flatMap { hub ->
+                hub.constructorCallsToSelf.flatMap { implementer ->
+                    val packageName = implementer.originOwner.packageName
+                    if (packageName.contains(deployable) || packageName.contains(domainHub)) {
+                        emptyList()
+                    } else {
+                        listOf("${implementer.originOwner.name} constructs ${hub.name} but isn't in $deployable")
+                    }
+                }
+            }.toSet()
         assertThat(results, isEmpty)
     }
 
