@@ -1,7 +1,8 @@
 package classified.payment.port.plug
 
-import classified.domain.model.*
-import classified.domain.port.socket.PaymentHubError
+import classified.domain.model.OfferId
+import classified.payment.model.*
+import classified.payment.port.socket.PaymentHubError
 import dev.forkhandles.result4k.Result
 
 interface PaymentRepository {

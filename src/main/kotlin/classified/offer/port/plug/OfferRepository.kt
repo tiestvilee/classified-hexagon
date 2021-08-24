@@ -4,7 +4,7 @@ import classified.domain.model.AdId
 import classified.domain.model.Offer
 import classified.domain.model.OfferDetails
 import classified.domain.model.OfferId
-import classified.domain.port.socket.OfferHubError
+import classified.offer.port.socket.OfferHubError
 import dev.forkhandles.result4k.Result
 
 interface OfferRepository {

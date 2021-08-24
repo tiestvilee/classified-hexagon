@@ -1,11 +1,13 @@
 package classified.payment.hub
 
-import classified.domain.model.*
-import classified.domain.port.socket.PaymentHubError
+import classified.domain.model.OfferId
+import classified.payment.model.*
 import classified.payment.port.plug.PaymentRepository
+import classified.payment.port.socket.PaymentHub
+import classified.payment.port.socket.PaymentHubError
 import dev.forkhandles.result4k.Result
 
-class PaymentHub(private val repository: PaymentRepository) : classified.domain.port.socket.PaymentHub {
+class PaymentHub(private val repository: PaymentRepository) : PaymentHub {
     override fun createPayment(
         offerId: OfferId,
         address: Address,

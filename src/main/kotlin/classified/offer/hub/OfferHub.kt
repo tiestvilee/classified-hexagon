@@ -1,11 +1,12 @@
 package classified.offer.hub
 
 import classified.domain.model.*
-import classified.domain.port.socket.OfferHubError
 import classified.offer.port.plug.OfferRepository
+import classified.offer.port.socket.OfferHub
+import classified.offer.port.socket.OfferHubError
 import dev.forkhandles.result4k.*
 
-class OfferHub(private val repo: OfferRepository) : classified.domain.port.socket.OfferHub {
+class OfferHub(private val repo: OfferRepository) : OfferHub {
     override fun createOffer(offer: OfferDetails): Result<OfferId, OfferHubError> {
         return repo.insertOffer(offer)
     }

@@ -1,6 +1,7 @@
-package classified.domain.port.socket
+package classified.payment.port.socket
 
-import classified.domain.model.*
+import classified.domain.model.OfferId
+import classified.payment.model.*
 import dev.forkhandles.result4k.Result
 
 sealed class PaymentHubError(message: String) : Exception(message) {

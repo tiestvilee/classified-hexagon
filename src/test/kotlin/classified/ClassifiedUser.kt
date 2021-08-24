@@ -1,6 +1,10 @@
 package classified
 
 import classified.domain.model.*
+import classified.payment.model.Address
+import classified.payment.model.CardDetails
+import classified.payment.model.Money
+import classified.payment.model.PaymentId
 import com.ubertob.pesticide.core.DdtActorWithContext
 import com.ubertob.pesticide.core.StepContext
 

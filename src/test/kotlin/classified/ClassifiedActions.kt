@@ -1,12 +1,16 @@
 package classified
 
 import classified.ad.adapter.InMemoryAdRepository
+import classified.ad.port.socket.AdHub
 import classified.domain.model.*
-import classified.domain.port.socket.AdHub
-import classified.domain.port.socket.OfferHub
-import classified.domain.port.socket.PaymentHub
 import classified.offer.adapter.InMemoryOfferRepository
+import classified.offer.port.socket.OfferHub
 import classified.payment.adapter.InMemoryPaymentRepository
+import classified.payment.model.Address
+import classified.payment.model.CardDetails
+import classified.payment.model.PaymentId
+import classified.payment.model.PaymentState
+import classified.payment.port.socket.PaymentHub
 import com.ubertob.pesticide.core.*
 import dev.forkhandles.result4k.orThrow
 

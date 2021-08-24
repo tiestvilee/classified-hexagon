@@ -1,4 +1,4 @@
-package classified.domain.model
+package classified.payment.model
 
 enum class CardType {
     Amex, Visa, Mastercard

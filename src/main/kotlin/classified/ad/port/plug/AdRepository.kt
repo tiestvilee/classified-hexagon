@@ -1,9 +1,9 @@
 package classified.ad.port.plug
 
+import classified.ad.port.socket.AdHubError
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
 import classified.domain.model.AdId
-import classified.domain.port.socket.AdHubError
 import dev.forkhandles.result4k.Result
 
 interface AdRepository {

@@ -1,5 +1,6 @@
 package classified.domain.model
 
+import classified.payment.model.Money
 import dev.forkhandles.values.UUIDValue
 import dev.forkhandles.values.UUIDValueFactory
 import java.util.*

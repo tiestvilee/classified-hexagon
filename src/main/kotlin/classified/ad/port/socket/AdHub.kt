@@ -1,4 +1,4 @@
-package classified.domain.port.socket
+package classified.ad.port.socket
 
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails

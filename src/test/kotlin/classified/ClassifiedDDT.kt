@@ -1,6 +1,10 @@
 package classified
 
-import classified.domain.model.*
+import classified.domain.model.AdDetails
+import classified.payment.model.Address
+import classified.payment.model.CardDetails
+import classified.payment.model.CardType
+import classified.payment.model.Money
 import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
 
