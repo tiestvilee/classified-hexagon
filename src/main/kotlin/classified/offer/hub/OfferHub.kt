@@ -1,8 +1,8 @@
-package classified.domain.hub
+package classified.offer.hub
 
 import classified.domain.model.*
-import classified.domain.port.plug.OfferRepository
 import classified.domain.port.socket.OfferHubError
+import classified.offer.port.plug.OfferRepository
 import dev.forkhandles.result4k.*
 
 class OfferHub(private val repo: OfferRepository) : classified.domain.port.socket.OfferHub {
