@@ -60,4 +60,5 @@ dependencies {
     testImplementation 'com.ubertob.pesticide:pesticide-core:1.6.4'
 
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
+    testImplementation "com.tngtech.archunit:archunit-junit5:0.20.1"
 }
