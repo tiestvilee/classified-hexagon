@@ -1,8 +1,8 @@
-package classified.domain.hub
+package classified.payment.hub
 
 import classified.domain.model.*
-import classified.domain.port.plug.PaymentRepository
 import classified.domain.port.socket.PaymentHubError
+import classified.payment.port.plug.PaymentRepository
 import dev.forkhandles.result4k.Result
 
 class PaymentHub(private val repository: PaymentRepository) : classified.domain.port.socket.PaymentHub {

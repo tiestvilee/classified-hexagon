@@ -1,12 +1,12 @@
 package classified
 
 import classified.ad.adapter.InMemoryAdRepository
-import classified.domain.adapter.InMemoryPaymentRepository
 import classified.domain.model.*
 import classified.domain.port.socket.AdHub
 import classified.domain.port.socket.OfferHub
 import classified.domain.port.socket.PaymentHub
 import classified.offer.adapter.InMemoryOfferRepository
+import classified.payment.adapter.InMemoryPaymentRepository
 import com.ubertob.pesticide.core.*
 import dev.forkhandles.result4k.orThrow
 
@@ -26,7 +26,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         InMemoryOfferRepository()
     )
 
-    private val paymentHub: PaymentHub = classified.domain.hub.PaymentHub(
+    private val paymentHub: PaymentHub = classified.payment.hub.PaymentHub(
         InMemoryPaymentRepository()
     )
 

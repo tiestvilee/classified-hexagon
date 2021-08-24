@@ -1,4 +1,4 @@
-package classified.domain.port.plug
+package classified.payment.port.plug
 
 import classified.domain.model.*
 import classified.domain.port.socket.PaymentHubError

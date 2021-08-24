@@ -1,8 +1,8 @@
-package classified.domain.adapter
+package classified.payment.adapter
 
 import classified.domain.model.*
-import classified.domain.port.plug.PaymentRepository
 import classified.domain.port.socket.PaymentHubError
+import classified.payment.port.plug.PaymentRepository
 import dev.forkhandles.result4k.Failure
 import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success
