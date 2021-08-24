@@ -1,6 +1,6 @@
 package classified
 
-import classified.domain.adapter.InMemoryAdRepository
+import classified.ad.adapter.InMemoryAdRepository
 import classified.domain.adapter.InMemoryOfferRepository
 import classified.domain.adapter.InMemoryPaymentRepository
 import classified.domain.model.*
@@ -18,7 +18,7 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
         // do something?
     }
 
-    private val adHub: AdHub = classified.domain.hub.AdHub(
+    private val adHub: AdHub = classified.ad.hub.AdHub(
         InMemoryAdRepository()
     )
 
