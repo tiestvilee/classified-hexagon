@@ -1,4 +1,4 @@
-package classified.deployable
+package test.ddt
 
 import classified.domain.model.*
 import classified.domain.payment.model.Address

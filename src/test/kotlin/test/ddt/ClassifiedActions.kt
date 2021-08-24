@@ -1,4 +1,4 @@
-package classified.deployable
+package test.ddt
 
 import classified.domain.ad.adapter.InMemoryAdRepository
 import classified.domain.ad.port.socket.AdHub

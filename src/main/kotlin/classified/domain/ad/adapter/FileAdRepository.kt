@@ -12,7 +12,7 @@ import dev.forkhandles.result4k.map
 import java.io.File
 import java.math.BigDecimal
 
-class FileAdRepository(val theFile: File) : AdRepository {
+class FileAdRepository(private val theFile: File) : AdRepository {
     private val ads = InMemoryAdRepository()
 
     init {
@@ -52,7 +52,7 @@ class FileAdRepository(val theFile: File) : AdRepository {
 private const val recordSeparator = "\u001E\n"
 private const val fieldSeparator = "\u001F\t"
 
-private fun serialiseAds(list: List<Ad>) = list.joinToString(recordSeparator) { serialiseAd(it) }
+fun serialiseAds(list: List<Ad>) = list.joinToString(recordSeparator) { serialiseAd(it) }
 
 fun serialiseAd(ad: Ad): String {
     return ad.id.toString() + fieldSeparator +

@@ -18,6 +18,7 @@ class ArchitectureTest {
     private val portSocket = "port.socket"
     private val portPlug = "port.plug"
     private val deployable = "deployable"
+    private val test = "test"
 
     @ArchTest
     val `there are no package cycles` =
@@ -81,7 +82,10 @@ class ArchitectureTest {
             .flatMap { adapter ->
                 adapter.constructorCallsToSelf.flatMap { implementer ->
                     val packageName = implementer.originOwner.packageName
-                    if (packageName.contains(deployable) || packageName.contains(this.adapter)) {
+                    if (packageName.contains(deployable) ||
+                        packageName.contains(this.adapter) ||
+                        packageName.startsWith(test)
+                    ) {
                         emptyList()
                     } else {
                         listOf("${implementer.originOwner.name} constructs ${adapter.name} but isn't in $deployable")
@@ -98,7 +102,10 @@ class ArchitectureTest {
             .flatMap { hub ->
                 hub.constructorCallsToSelf.flatMap { implementer ->
                     val packageName = implementer.originOwner.packageName
-                    if (packageName.contains(deployable) || packageName.contains(domainHub)) {
+                    if (packageName.contains(deployable) ||
+                        packageName.contains(domainHub) ||
+                        packageName.startsWith(test)
+                    ) {
                         emptyList()
                     } else {
                         listOf("${implementer.originOwner.name} constructs ${hub.name} but isn't in $deployable")
