@@ -1,21 +1,24 @@
 package test.ddt
 
+import classified.deployable.cli.AdCliParserError
+import classified.deployable.cli.ClassifiedCli
 import classified.domain.ad.adapter.InMemoryAdRepository
-import classified.domain.ad.port.socket.AdHub
+import classified.domain.ad.adapter.toAd
+import classified.domain.ad.adapter.toAdId
+import classified.domain.ad.hub.AdHub
 import classified.domain.model.*
 import classified.domain.offer.adapter.InMemoryOfferRepository
-import classified.domain.offer.port.socket.OfferHub
+import classified.domain.offer.hub.OfferHub
 import classified.domain.payment.adapter.InMemoryPaymentRepository
 import classified.domain.payment.adapter.PaymentProviderFake
-import classified.domain.payment.model.Address
-import classified.domain.payment.model.CardDetails
-import classified.domain.payment.model.PaymentId
-import classified.domain.payment.model.PaymentState
-import classified.domain.payment.port.socket.PaymentHub
+import classified.domain.payment.hub.PaymentHub
+import classified.domain.payment.model.*
 import com.ubertob.pesticide.core.DdtProtocol
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Ready
+import dev.forkhandles.result4k.Result
+import dev.forkhandles.result4k.Success
 import dev.forkhandles.result4k.orThrow
 
 class CliActions : ClassifiedActions {
@@ -26,65 +29,86 @@ class CliActions : ClassifiedActions {
         // do something?
     }
 
-    private val adHub: AdHub = classified.domain.ad.hub.AdHub(
-        InMemoryAdRepository()
-    )
-
-    private val offerHub: OfferHub = classified.domain.offer.hub.OfferHub(
-        InMemoryOfferRepository()
-    )
-
-    private val paymentHub: PaymentHub = classified.domain.payment.hub.PaymentHub(
-        InMemoryPaymentRepository(),
-        PaymentProviderFake()
+    private val cli = ClassifiedCli(
+        AdHub(
+            InMemoryAdRepository()
+        ), OfferHub(
+            InMemoryOfferRepository()
+        ), PaymentHub(
+            InMemoryPaymentRepository(),
+            PaymentProviderFake()
+        )
     )
 
     override fun createAd(item: AdDetails): AdId {
-        return adHub.createAd(item).orThrow()
+        return cli.process("ad create '${item.name}' ${item.askingPrice}").toAdId().orThrow()
     }
 
     override fun findOffersFor(adId: AdId): List<Offer> {
-        return offerHub.offersFor(adId).orThrow()
+        return cli.process("offer find -ad ${adId.value}").toOffers().orThrow()
     }
 
     override fun acceptOffer(offerId: OfferId) {
-        offerHub.acceptOffer(offerId).orThrow()
+        cli.process("offer accept ${offerId.value}")
     }
 
     override fun itemMailed(offerId: OfferId) {
-        offerHub.itemMailed(offerId).orThrow()
+        cli.process("offer mailed ${offerId.value}")
     }
 
     override fun findItem(itemName: String): AdId {
-        return adHub.findAdByName(itemName).orThrow().id
+        return cli.process("ad find -name $itemName").toAd().orThrow().id
     }
 
     override fun createOffer(offer: OfferDetails): OfferId {
-        return offerHub.createOffer(offer).orThrow()
+        return cli.process("offer create ${offer.adId.value} ${offer.offer.amount}").toOfferId().orThrow()
     }
 
     override fun createPayment(offerId: OfferId, address: Address, cardDetails: CardDetails): PaymentId {
-        val offer = offerHub.offer(offerId).orThrow()
-        return paymentHub.createPayment(offerId, address, cardDetails, offer.details.offer).orThrow()
+        val offer = cli.process("offer find -id ${offerId.value}").toOffer().orThrow()
+        return cli.process("payment create ${offerId.value} ${address.location}, ${cardDetails.cardType}, ${offer.details.offer.amount}")
+            .toPaymentId().orThrow()
     }
 
     override fun itemReceived(offerId: OfferId) {
-        offerHub.itemReceived(offerId)
+        cli.process("offer received ${offerId.value}")
     }
 
     override fun stateOf(paymentId: PaymentId): PaymentState {
-        return paymentHub.payment(paymentId).orThrow().state
+        return cli.process("payment find -id ${paymentId.value}").toPayment().orThrow().state
     }
 
     override fun stateOf(offerId: OfferId): OfferState {
-        return offerHub.offer(offerId).orThrow().state
+        return cli.process("offer find -id ${offerId.value}").toOffer().orThrow().state
     }
 
     override fun stateOf(adId: AdId): AdState {
-        return adHub.ad(adId).orThrow().state
+        return cli.process("ad find -id ${adId.value}").toAd().orThrow().state
     }
 
     override fun paymentSettled(paymentId: PaymentId) {
-        paymentHub.settle(paymentId)
+        cli.process("payment settled ${paymentId.value}")
     }
 }
+
+
+private fun String.toOfferId(): Result<OfferId, AdCliParserError> {
+    return Success(OfferId.parse(this))
+}
+
+private fun String.toOffer(): Result<Offer, AdCliParserError> {
+    TODO("Not yet implemented")
+}
+
+private fun String.toOffers(): Result<List<Offer>, AdCliParserError> {
+    TODO("Not yet implemented")
+}
+
+private fun String.toPaymentId(): Result<PaymentId, AdCliParserError> {
+    return Success(PaymentId.parse(this))
+}
+
+private fun String.toPayment(): Result<Payment, AdCliParserError> {
+    TODO("Not yet implemented")
+}
+
