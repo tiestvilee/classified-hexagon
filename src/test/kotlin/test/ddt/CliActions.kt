@@ -8,6 +8,9 @@ import classified.domain.ad.adapter.toAdId
 import classified.domain.ad.hub.AdHub
 import classified.domain.model.*
 import classified.domain.offer.adapter.InMemoryOfferRepository
+import classified.domain.offer.adapter.toOffer
+import classified.domain.offer.adapter.toOfferId
+import classified.domain.offer.adapter.toOffers
 import classified.domain.offer.hub.OfferHub
 import classified.domain.payment.adapter.InMemoryPaymentRepository
 import classified.domain.payment.adapter.PaymentProviderFake
@@ -89,19 +92,6 @@ class CliActions : ClassifiedActions {
     override fun paymentSettled(paymentId: PaymentId) {
         cli.process("payment settled ${paymentId.value}")
     }
-}
-
-
-private fun String.toOfferId(): Result<OfferId, AdCliParserError> {
-    return Success(OfferId.parse(this))
-}
-
-private fun String.toOffer(): Result<Offer, AdCliParserError> {
-    TODO("Not yet implemented")
-}
-
-private fun String.toOffers(): Result<List<Offer>, AdCliParserError> {
-    TODO("Not yet implemented")
 }
 
 private fun String.toPaymentId(): Result<PaymentId, AdCliParserError> {
