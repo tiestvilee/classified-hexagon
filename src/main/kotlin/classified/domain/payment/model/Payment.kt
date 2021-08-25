@@ -18,4 +18,4 @@ data class PaymentDetails(
     val amount: Money
 )
 
-data class Payment(val id: PaymentId, val state: PaymentState, val details: PaymentDetails)
+data class Payment(val id: PaymentId, val state: PaymentState, val authorisationId: AuthorisationId)

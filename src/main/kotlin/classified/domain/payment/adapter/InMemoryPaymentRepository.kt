@@ -1,7 +1,10 @@
 package classified.domain.payment.adapter
 
 import classified.domain.model.OfferId
-import classified.domain.payment.model.*
+import classified.domain.payment.model.AuthorisationId
+import classified.domain.payment.model.Payment
+import classified.domain.payment.model.PaymentId
+import classified.domain.payment.model.PaymentState
 import classified.domain.payment.port.plug.PaymentRepository
 import classified.domain.payment.port.socket.PaymentHubError
 import dev.forkhandles.result4k.Failure
@@ -14,12 +17,10 @@ class InMemoryPaymentRepository : PaymentRepository {
 
     override fun createPayment(
         offerId: OfferId,
-        address: Address,
-        cardDetails: CardDetails,
-        amount: Money
+        authorisationId: AuthorisationId,
     ): Result<PaymentId, PaymentHubError> {
         val paymentId = PaymentId.random()
-        payments[paymentId] = Payment(paymentId, PaymentState.Authorised, PaymentDetails(address, cardDetails, amount))
+        payments[paymentId] = Payment(paymentId, PaymentState.Authorised, authorisationId)
         return Success(paymentId)
     }
 

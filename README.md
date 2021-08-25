@@ -6,7 +6,7 @@ Next steps
 
 * [x] arch tests
 * [x] split up the domains and rationalise the packages
-* [ ] Payment Provider
+* [x] Payment Provider
 * [ ] CLI application (with persistence?) and DDT
   * created minimal ap just for arch tests (with 'persistence')
   * cli will need to be a lot more extensive to pull off DDT!

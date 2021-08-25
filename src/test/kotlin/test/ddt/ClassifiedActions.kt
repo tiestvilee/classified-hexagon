@@ -6,6 +6,7 @@ import classified.domain.model.*
 import classified.domain.offer.adapter.InMemoryOfferRepository
 import classified.domain.offer.port.socket.OfferHub
 import classified.domain.payment.adapter.InMemoryPaymentRepository
+import classified.domain.payment.adapter.PaymentProviderFake
 import classified.domain.payment.model.Address
 import classified.domain.payment.model.CardDetails
 import classified.domain.payment.model.PaymentId
@@ -31,7 +32,8 @@ class ClassifiedActions : DomainActions<DdtProtocol> {
     )
 
     private val paymentHub: PaymentHub = classified.domain.payment.hub.PaymentHub(
-        InMemoryPaymentRepository()
+        InMemoryPaymentRepository(),
+        PaymentProviderFake()
     )
 
     fun createAd(item: AdDetails): AdId {
