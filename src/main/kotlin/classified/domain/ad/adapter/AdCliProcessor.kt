@@ -1,6 +1,5 @@
 package classified.domain.ad.adapter
 
-import classified.deployable.cli.AdCliParserError
 import classified.domain.ad.port.socket.AdHub
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
@@ -11,6 +10,8 @@ import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success
 import dev.forkhandles.result4k.orThrow
 import java.math.BigDecimal
+
+class AdCliParserError(message: String) : Exception(message)
 
 fun adCliProcessor(
     adHub: AdHub,

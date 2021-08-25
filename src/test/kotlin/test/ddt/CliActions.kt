@@ -1,7 +1,7 @@
 package test.ddt
 
-import classified.deployable.cli.AdCliParserError
 import classified.deployable.cli.ClassifiedCli
+import classified.domain.ad.adapter.AdCliParserError
 import classified.domain.ad.adapter.InMemoryAdRepository
 import classified.domain.ad.adapter.toAd
 import classified.domain.ad.adapter.toAdId

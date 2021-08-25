@@ -1,6 +1,5 @@
 package classified.domain.offer.adapter
 
-import classified.deployable.cli.AdCliParserError
 import classified.domain.ad.adapter.toAdId
 import classified.domain.model.*
 import classified.domain.offer.port.socket.OfferHub
@@ -9,6 +8,8 @@ import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success
 import dev.forkhandles.result4k.orThrow
 import java.math.BigDecimal
+
+class OfferCliParserError(message: String) : Exception(message)
 
 fun offerCliProcessor(
     offerHub: OfferHub,
@@ -38,12 +39,12 @@ fun offerCliProcessor(
                 offerHub.offersFor(params[1].toAdId().orThrow()).orThrow().toCliString()
             }
             else -> {
-                throw AdCliParserError("Don't understand qualifier ${params.get(0)} for command $command in domain $domain")
+                throw OfferCliParserError("Don't understand qualifier ${params.get(0)} for command $command in domain $domain")
             }
         }
     }
     else -> {
-        throw AdCliParserError("Don't understand command $command in domain $domain")
+        throw OfferCliParserError("Don't understand command $command in domain $domain")
     }
 }
 
@@ -54,14 +55,14 @@ fun List<Offer>.toCliString() =
 
 fun OfferId.toCliString() = value.toString()
 
-fun String.toOfferId(): Result<OfferId, AdCliParserError> {
+fun String.toOfferId(): Result<OfferId, OfferCliParserError> {
     return Success(OfferId.parse(this))
 }
 
 fun Offer.toCliString() =
     "${id.value} $state ${details.adId.value} ${details.offer.amount}"
 
-fun String.toOffer(): Result<Offer, AdCliParserError> {
+fun String.toOffer(): Result<Offer, OfferCliParserError> {
     val params = this.split(Regex("\\s"))
     return Success(
         Offer(
@@ -75,7 +76,7 @@ fun String.toOffer(): Result<Offer, AdCliParserError> {
     )
 }
 
-fun String.toOffers(): Result<List<Offer>, AdCliParserError> {
+fun String.toOffers(): Result<List<Offer>, OfferCliParserError> {
     return Success(this.split("\n").map {
         it.toOffer().orThrow()
     })
