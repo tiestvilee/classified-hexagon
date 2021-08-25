@@ -8,7 +8,7 @@ import classified.domain.payment.model.Money
 import com.ubertob.pesticide.core.DDT
 import com.ubertob.pesticide.core.DomainDrivenTest
 
-class ClassifiedDDT : DomainDrivenTest<ClassifiedActions>(setOf(ClassifiedActions())) {
+class ClassifiedDDT : DomainDrivenTest<ClassifiedActions>(setOf(DomainOnlyActions(), CliActions())) {
     private val buyer = ClassifiedUser("Bob")
     private val seller = ClassifiedUser("Sally")
 
