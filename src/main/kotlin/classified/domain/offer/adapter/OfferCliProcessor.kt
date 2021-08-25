@@ -30,6 +30,14 @@ fun offerCliProcessor(
         offerHub.acceptOffer(params[0].toOfferId().orThrow())
         ""
     }
+    "mailed" -> {
+        offerHub.itemMailed(params[0].toOfferId().orThrow())
+        ""
+    }
+    "received" -> {
+        offerHub.itemReceived(params[0].toOfferId().orThrow())
+        ""
+    }
     "find" -> {
         when (params[0]) {
             "-id" -> {

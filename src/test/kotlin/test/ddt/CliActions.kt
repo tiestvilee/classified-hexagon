@@ -1,7 +1,6 @@
 package test.ddt
 
 import classified.deployable.cli.ClassifiedCli
-import classified.domain.ad.adapter.AdCliParserError
 import classified.domain.ad.adapter.InMemoryAdRepository
 import classified.domain.ad.adapter.toAd
 import classified.domain.ad.adapter.toAdId
@@ -14,14 +13,17 @@ import classified.domain.offer.adapter.toOffers
 import classified.domain.offer.hub.OfferHub
 import classified.domain.payment.adapter.InMemoryPaymentRepository
 import classified.domain.payment.adapter.PaymentProviderFake
+import classified.domain.payment.adapter.toPayment
+import classified.domain.payment.adapter.toPaymentId
 import classified.domain.payment.hub.PaymentHub
-import classified.domain.payment.model.*
+import classified.domain.payment.model.Address
+import classified.domain.payment.model.CardDetails
+import classified.domain.payment.model.PaymentId
+import classified.domain.payment.model.PaymentState
 import com.ubertob.pesticide.core.DdtProtocol
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.DomainSetUp
 import com.ubertob.pesticide.core.Ready
-import dev.forkhandles.result4k.Result
-import dev.forkhandles.result4k.Success
 import dev.forkhandles.result4k.orThrow
 
 class CliActions : ClassifiedActions {
@@ -69,7 +71,7 @@ class CliActions : ClassifiedActions {
 
     override fun createPayment(offerId: OfferId, address: Address, cardDetails: CardDetails): PaymentId {
         val offer = cli.process("offer find -id ${offerId.value}").toOffer().orThrow()
-        return cli.process("payment create ${offerId.value} ${address.location}, ${cardDetails.cardType}, ${offer.details.offer.amount}")
+        return cli.process("payment create ${offerId.value} ${address.location} ${cardDetails.cardType} ${offer.details.offer.amount}")
             .toPaymentId().orThrow()
     }
 
@@ -92,13 +94,5 @@ class CliActions : ClassifiedActions {
     override fun paymentSettled(paymentId: PaymentId) {
         cli.process("payment settled ${paymentId.value}")
     }
-}
-
-private fun String.toPaymentId(): Result<PaymentId, AdCliParserError> {
-    return Success(PaymentId.parse(this))
-}
-
-private fun String.toPayment(): Result<Payment, AdCliParserError> {
-    TODO("Not yet implemented")
 }
 

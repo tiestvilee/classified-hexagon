@@ -4,6 +4,7 @@ import classified.domain.ad.adapter.adCliProcessor
 import classified.domain.ad.port.socket.AdHub
 import classified.domain.offer.adapter.offerCliProcessor
 import classified.domain.offer.port.socket.OfferHub
+import classified.domain.payment.adapter.paymentCliProcessor
 import classified.domain.payment.port.socket.PaymentHub
 
 class ClassifiedCliParserError(message: String) : Exception(message)
@@ -22,14 +23,7 @@ class ClassifiedCli(private val adHub: AdHub, private val offerHub: OfferHub, pr
                 offerCliProcessor(offerHub, domain, command, params)
             }
             "payment" -> {
-                when (command) {
-                    "" -> {
-                        return "todo"
-                    }
-                    else -> {
-                        throw ClassifiedCliParserError("Don't understand command $command in domain $domain")
-                    }
-                }
+                paymentCliProcessor(command, params, domain, paymentHub)
             }
             else -> {
                 throw ClassifiedCliParserError("Dont' understand domain $domain")

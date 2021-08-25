@@ -7,9 +7,8 @@ Next steps
 * [x] arch tests
 * [x] split up the domains and rationalise the packages
 * [x] Payment Provider
-* [ ] CLI application (with persistence?) and DDT
-  * created minimal ap just for arch tests (with 'persistence')
-  * cli will need to be a lot more extensive to pull off DDT!
+* [x] CLI application (with persistence? NO) and DDT
+* [ ] think about arch rules - sockets and plugs again?
 * [ ] callback/state-updates - including adapter pairs
 * [ ] user 'security'
 * [ ] http application and DDT
