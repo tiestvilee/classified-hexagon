@@ -1,13 +1,13 @@
-package classified.domain.offer.adapter
+package classified.domain.offer.adapter.dependency
 
 import classified.domain.model.AdId
 import classified.domain.model.Offer
 import classified.domain.model.OfferDetails
 import classified.domain.model.OfferId
 import classified.domain.model.OfferState.Offered
-import classified.domain.offer.port.plug.OfferRepository
-import classified.domain.offer.port.socket.OfferHubError
-import classified.domain.offer.port.socket.OfferHubError.OfferNotFound
+import classified.domain.offer.port.dependency.OfferRepository
+import classified.domain.offer.port.service.OfferHubError
+import classified.domain.offer.port.service.OfferHubError.OfferNotFound
 import dev.forkhandles.result4k.Failure
 import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success

@@ -1,10 +1,10 @@
-package classified.domain.offer.port.plug
+package classified.domain.offer.port.dependency
 
 import classified.domain.model.AdId
 import classified.domain.model.Offer
 import classified.domain.model.OfferDetails
 import classified.domain.model.OfferId
-import classified.domain.offer.port.socket.OfferHubError
+import classified.domain.offer.port.service.OfferHubError
 import dev.forkhandles.result4k.Result
 
 interface OfferRepository {

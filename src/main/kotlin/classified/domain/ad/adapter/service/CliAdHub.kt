@@ -1,7 +1,7 @@
-package classified.domain.ad.adapter
+package classified.domain.ad.adapter.service
 
-import classified.domain.ad.port.socket.AdHub
-import classified.domain.ad.port.socket.AdHubError
+import classified.domain.ad.port.service.AdHub
+import classified.domain.ad.port.service.AdHubError
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
 import classified.domain.model.AdId

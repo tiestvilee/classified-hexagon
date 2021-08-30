@@ -1,12 +1,12 @@
-package classified.domain.payment.adapter
+package classified.domain.payment.adapter.dependency
 
 import classified.domain.model.OfferId
 import classified.domain.payment.model.AuthorisationId
 import classified.domain.payment.model.Payment
 import classified.domain.payment.model.PaymentId
 import classified.domain.payment.model.PaymentState
-import classified.domain.payment.port.plug.PaymentRepository
-import classified.domain.payment.port.socket.PaymentHubError
+import classified.domain.payment.port.dependency.PaymentRepository
+import classified.domain.payment.port.service.PaymentHubError
 import dev.forkhandles.result4k.Failure
 import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success

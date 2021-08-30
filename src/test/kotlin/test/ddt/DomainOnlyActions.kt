@@ -1,17 +1,17 @@
 package test.ddt
 
-import classified.domain.ad.adapter.InMemoryAdRepository
-import classified.domain.ad.port.socket.AdHub
+import classified.domain.ad.adapter.dependency.InMemoryAdRepository
+import classified.domain.ad.port.service.AdHub
 import classified.domain.model.*
-import classified.domain.offer.adapter.InMemoryOfferRepository
-import classified.domain.offer.port.socket.OfferHub
-import classified.domain.payment.adapter.InMemoryPaymentRepository
-import classified.domain.payment.adapter.PaymentProviderFake
+import classified.domain.offer.adapter.dependency.InMemoryOfferRepository
+import classified.domain.offer.port.service.OfferHub
+import classified.domain.payment.adapter.dependency.InMemoryPaymentRepository
+import classified.domain.payment.adapter.dependency.PaymentProviderFake
 import classified.domain.payment.model.Address
 import classified.domain.payment.model.CardDetails
 import classified.domain.payment.model.PaymentId
 import classified.domain.payment.model.PaymentState
-import classified.domain.payment.port.socket.PaymentHub
+import classified.domain.payment.port.service.PaymentHub
 import com.ubertob.pesticide.core.DdtProtocol
 import com.ubertob.pesticide.core.DomainOnly
 import com.ubertob.pesticide.core.DomainSetUp

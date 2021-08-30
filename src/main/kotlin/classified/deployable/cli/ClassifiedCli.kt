@@ -1,11 +1,16 @@
 package classified.deployable.cli
 
-import classified.domain.ad.adapter.CliAdHubServer
-import classified.domain.ad.port.socket.AdHub
-import classified.domain.offer.adapter.offerCliProcessor
-import classified.domain.offer.port.socket.OfferHub
-import classified.domain.payment.adapter.paymentCliProcessor
-import classified.domain.payment.port.socket.PaymentHub
+import classified.domain.ad.adapter.dependency.FileAdRepository
+import classified.domain.ad.adapter.service.CliAdHubServer
+import classified.domain.ad.port.service.AdHub
+import classified.domain.offer.adapter.dependency.InMemoryOfferRepository
+import classified.domain.offer.adapter.service.offerCliProcessor
+import classified.domain.offer.port.service.OfferHub
+import classified.domain.payment.adapter.dependency.InMemoryPaymentRepository
+import classified.domain.payment.adapter.dependency.PaymentProviderFake
+import classified.domain.payment.adapter.service.paymentCliProcessor
+import classified.domain.payment.port.service.PaymentHub
+import java.io.File
 
 class ClassifiedCliParserError(message: String) : Exception(message)
 
@@ -33,7 +38,17 @@ class ClassifiedCli(adHub: AdHub, private val offerHub: OfferHub, private val pa
             }
         }
     }
+}
 
+fun main(args: Array<String>) {
+    println(
+        ClassifiedCli(
+            classified.domain.ad.hub.AdHub(FileAdRepository(File("./ads.db"))),
+            classified.domain.offer.hub.OfferHub(InMemoryOfferRepository()),
+            classified.domain.payment.hub.PaymentHub(InMemoryPaymentRepository(), PaymentProviderFake())
+        )
+            .process(args.joinToString(" "))
+    )
 }
 
 

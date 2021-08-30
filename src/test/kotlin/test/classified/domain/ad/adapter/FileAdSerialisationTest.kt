@@ -1,5 +1,7 @@
-package classified.domain.ad.adapter
+package test.classified.domain.ad.adapter
 
+import classified.domain.ad.adapter.dependency.deserialiseAds
+import classified.domain.ad.adapter.dependency.serialiseAds
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
 import classified.domain.model.AdId

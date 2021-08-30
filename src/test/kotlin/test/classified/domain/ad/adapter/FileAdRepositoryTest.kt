@@ -1,5 +1,6 @@
-package classified.domain.ad.adapter
+package test.classified.domain.ad.adapter
 
+import classified.domain.ad.adapter.dependency.FileAdRepository
 import org.junit.jupiter.api.Test
 import java.io.File
 

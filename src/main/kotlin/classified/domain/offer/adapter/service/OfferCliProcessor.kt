@@ -1,8 +1,8 @@
-package classified.domain.offer.adapter
+package classified.domain.offer.adapter.service
 
-import classified.domain.ad.adapter.toAdId
+import classified.domain.ad.adapter.service.toAdId
 import classified.domain.model.*
-import classified.domain.offer.port.socket.OfferHub
+import classified.domain.offer.port.service.OfferHub
 import classified.domain.payment.model.Money
 import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success

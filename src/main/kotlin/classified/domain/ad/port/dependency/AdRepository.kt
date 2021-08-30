@@ -1,6 +1,6 @@
-package classified.domain.ad.port.plug
+package classified.domain.ad.port.dependency
 
-import classified.domain.ad.port.socket.AdHubError
+import classified.domain.ad.port.service.AdHubError
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
 import classified.domain.model.AdId

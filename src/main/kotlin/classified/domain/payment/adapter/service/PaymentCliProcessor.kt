@@ -1,9 +1,9 @@
-package classified.domain.payment.adapter
+package classified.domain.payment.adapter.service
 
-import classified.domain.ad.adapter.CliAdParserError
-import classified.domain.offer.adapter.toOfferId
+import classified.domain.ad.adapter.service.CliAdParserError
+import classified.domain.offer.adapter.service.toOfferId
 import classified.domain.payment.model.*
-import classified.domain.payment.port.socket.PaymentHub
+import classified.domain.payment.port.service.PaymentHub
 import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.Success
 import dev.forkhandles.result4k.orThrow

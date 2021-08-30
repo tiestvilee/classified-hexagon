@@ -1,4 +1,4 @@
-package classified.domain.payment.port.socket
+package classified.domain.payment.port.service
 
 import classified.domain.model.OfferId
 import classified.domain.payment.model.*

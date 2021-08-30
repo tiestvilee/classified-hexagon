@@ -1,20 +1,19 @@
 package test.ddt
 
 import classified.deployable.cli.ClassifiedCli
-import classified.domain.ad.adapter.InMemoryAdRepository
-import classified.domain.ad.adapter.toAd
-import classified.domain.ad.adapter.toAdId
+import classified.domain.ad.adapter.dependency.InMemoryAdRepository
+import classified.domain.ad.adapter.service.CliAdHubClient
 import classified.domain.ad.hub.AdHub
 import classified.domain.model.*
-import classified.domain.offer.adapter.InMemoryOfferRepository
-import classified.domain.offer.adapter.toOffer
-import classified.domain.offer.adapter.toOfferId
-import classified.domain.offer.adapter.toOffers
+import classified.domain.offer.adapter.dependency.InMemoryOfferRepository
+import classified.domain.offer.adapter.service.toOffer
+import classified.domain.offer.adapter.service.toOfferId
+import classified.domain.offer.adapter.service.toOffers
 import classified.domain.offer.hub.OfferHub
-import classified.domain.payment.adapter.InMemoryPaymentRepository
-import classified.domain.payment.adapter.PaymentProviderFake
-import classified.domain.payment.adapter.toPayment
-import classified.domain.payment.adapter.toPaymentId
+import classified.domain.payment.adapter.dependency.InMemoryPaymentRepository
+import classified.domain.payment.adapter.dependency.PaymentProviderFake
+import classified.domain.payment.adapter.service.toPayment
+import classified.domain.payment.adapter.service.toPaymentId
 import classified.domain.payment.hub.PaymentHub
 import classified.domain.payment.model.Address
 import classified.domain.payment.model.CardDetails
@@ -45,8 +44,12 @@ class CliActions : ClassifiedActions {
         )
     )
 
+    private val adClient = CliAdHubClient { command ->
+        cli.process("ad $command")
+    }
+
     override fun createAd(item: AdDetails): AdId {
-        return cli.process("ad create '${item.name}' ${item.askingPrice.amount}").toAdId().orThrow()
+        return adClient.createAd(item).orThrow()
     }
 
     override fun findOffersFor(adId: AdId): List<Offer> {
@@ -62,7 +65,7 @@ class CliActions : ClassifiedActions {
     }
 
     override fun findItem(itemName: String): AdId {
-        return cli.process("ad find -name $itemName").toAd().orThrow().id
+        return adClient.findAdByName(itemName).orThrow().id
     }
 
     override fun createOffer(offer: OfferDetails): OfferId {
@@ -88,7 +91,7 @@ class CliActions : ClassifiedActions {
     }
 
     override fun stateOf(adId: AdId): AdState {
-        return cli.process("ad find -id ${adId.value}").toAd().orThrow().state
+        return adClient.ad(adId).orThrow().state
     }
 
     override fun paymentSettled(paymentId: PaymentId) {

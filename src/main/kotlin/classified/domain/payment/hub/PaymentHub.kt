@@ -2,10 +2,10 @@ package classified.domain.payment.hub
 
 import classified.domain.model.OfferId
 import classified.domain.payment.model.*
-import classified.domain.payment.port.plug.PaymentProvider
-import classified.domain.payment.port.plug.PaymentRepository
-import classified.domain.payment.port.socket.PaymentHub
-import classified.domain.payment.port.socket.PaymentHubError
+import classified.domain.payment.port.dependency.PaymentProvider
+import classified.domain.payment.port.dependency.PaymentRepository
+import classified.domain.payment.port.service.PaymentHub
+import classified.domain.payment.port.service.PaymentHubError
 import dev.forkhandles.result4k.Result
 import dev.forkhandles.result4k.flatMap
 

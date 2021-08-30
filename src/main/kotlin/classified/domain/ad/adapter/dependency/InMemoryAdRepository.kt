@@ -1,8 +1,8 @@
-package classified.domain.ad.adapter
+package classified.domain.ad.adapter.dependency
 
-import classified.domain.ad.port.plug.AdRepository
-import classified.domain.ad.port.socket.AdHubError
-import classified.domain.ad.port.socket.AdHubError.AdNotFound
+import classified.domain.ad.port.dependency.AdRepository
+import classified.domain.ad.port.service.AdHubError
+import classified.domain.ad.port.service.AdHubError.AdNotFound
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
 import classified.domain.model.AdId

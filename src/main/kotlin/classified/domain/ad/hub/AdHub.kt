@@ -1,8 +1,8 @@
 package classified.domain.ad.hub
 
-import classified.domain.ad.port.plug.AdRepository
-import classified.domain.ad.port.socket.AdHub
-import classified.domain.ad.port.socket.AdHubError
+import classified.domain.ad.port.dependency.AdRepository
+import classified.domain.ad.port.service.AdHub
+import classified.domain.ad.port.service.AdHubError
 import classified.domain.model.Ad
 import classified.domain.model.AdDetails
 import classified.domain.model.AdId

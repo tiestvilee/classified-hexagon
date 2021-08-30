@@ -14,9 +14,10 @@ class ArchitectureTest {
     private val basePackage = "classified"
     private val domainHub = "hub"
     private val domainModel = "model"
-    private val adapter = "adapter"
-    private val portSocket = "port.socket"
-    private val portPlug = "port.plug"
+    private val serviceAdapter = "adapter.service"
+    private val dependencyAdapter = "adapter.dependency"
+    private val servicePorts = "port.service"
+    private val dependencyPorts = "port.dependency"
     private val deployable = "deployable"
     private val test = "test"
 
@@ -36,22 +37,23 @@ class ArchitectureTest {
             .accessClassesThat()
             .resideInAnyPackage(
                 "$domainHub..",
-                "$adapter..",
-                "$portPlug..",
-                "$portSocket..",
+                "$serviceAdapter..",
+                "$dependencyAdapter..",
+                "$dependencyPorts..",
+                "$servicePorts..",
             )
 
     @Test
-    fun `only adapters can implement plugs`() {
+    fun `only dependency adapters can implement dependencies`() {
         val results = ClassFileImporter().importClasspath()
-            .filter { it.name.contains(portPlug) }
+            .filter { it.name.contains(dependencyPorts) }
             .filter { it.isInterface }
             .flatMap { plug ->
                 plug.allSubclasses.flatMap { implementer ->
-                    if (implementer.packageName.contains(adapter)) {
+                    if (implementer.packageName.contains(dependencyAdapter)) {
                         emptyList()
                     } else {
-                        listOf("${implementer.name} implements \n${plug.name} but isn't in\n$adapter")
+                        listOf("${implementer.name} implements \n${plug.name} but isn't in\n$dependencyAdapter")
                     }
                 }
             }
@@ -59,13 +61,16 @@ class ArchitectureTest {
     }
 
     @Test
-    fun `only hubs can implement sockets`() {
+    fun `only hubs and serviceAdapters can implement services`() {
         val results = ClassFileImporter().importClasspath()
-            .filter { it.name.contains(portSocket) }
+            .filter { it.name.contains(servicePorts) }
             .filter { it.isInterface }
             .flatMap { socket ->
                 socket.allSubclasses.flatMap { implementer ->
-                    if (implementer.packageName.contains(domainHub)) {
+                    if (implementer.packageName.contains(domainHub) ||
+                        implementer.packageName.contains(serviceAdapter) ||
+                        implementer.packageName.startsWith(test)
+                    ) {
                         emptyList()
                     } else {
                         listOf("${implementer.name} implements ${socket.name} but isn't in $domainHub")
@@ -76,14 +81,14 @@ class ArchitectureTest {
     }
 
     @Test
-    fun `only deployables can create adapters`() {
+    fun `only deployables can create service adapters`() {
         val results = ClassFileImporter().importClasspath()
-            .filter { it.name.contains(adapter) }
+            .filter { it.name.contains(serviceAdapter) }
             .flatMap { adapter ->
                 adapter.constructorCallsToSelf.flatMap { implementer ->
                     val packageName = implementer.originOwner.packageName
                     if (packageName.contains(deployable) ||
-                        packageName.contains(this.adapter) ||
+                        packageName.contains(this.serviceAdapter) ||
                         packageName.startsWith(test)
                     ) {
                         emptyList()
