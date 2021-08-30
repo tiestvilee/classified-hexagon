@@ -7,6 +7,7 @@ import dev.forkhandles.result4k.Result
 
 sealed class AdHubError(message: String) : Exception(message) {
     class AdNotFound(message: String) : AdHubError(message)
+    class RepositoryFailure(message: String) : AdHubError(message)
 }
 
 interface AdHub {

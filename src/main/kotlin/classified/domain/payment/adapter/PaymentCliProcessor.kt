@@ -1,6 +1,6 @@
 package classified.domain.payment.adapter
 
-import classified.domain.ad.adapter.AdCliParserError
+import classified.domain.ad.adapter.CliAdParserError
 import classified.domain.offer.adapter.toOfferId
 import classified.domain.payment.model.*
 import classified.domain.payment.port.socket.PaymentHub
@@ -33,10 +33,10 @@ fun paymentCliProcessor(
 
 fun PaymentId.toCliString() = value.toString()
 
-fun String.toPaymentId(): Result<PaymentId, AdCliParserError> {
+fun String.toPaymentId(): Result<PaymentId, CliAdParserError> {
     return Success(PaymentId.parse(this))
 }
 
-fun String.toPayment(): Result<Payment, AdCliParserError> {
+fun String.toPayment(): Result<Payment, CliAdParserError> {
     TODO("Not yet implemented")
 }

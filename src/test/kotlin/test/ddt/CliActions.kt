@@ -46,7 +46,7 @@ class CliActions : ClassifiedActions {
     )
 
     override fun createAd(item: AdDetails): AdId {
-        return cli.process("ad create '${item.name}' ${item.askingPrice}").toAdId().orThrow()
+        return cli.process("ad create '${item.name}' ${item.askingPrice.amount}").toAdId().orThrow()
     }
 
     override fun findOffersFor(adId: AdId): List<Offer> {
