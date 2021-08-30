@@ -1,0 +1,68 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "symmetric service adapter" {
+    class ServiceAdapterClient {
+        domain.[domain].adapter.service
+    }
+    class ServiceAdapterServer {
+        domain.[domain].adapter.service
+    }
+}
+interface Service {
+    domain.[domain].port.service
+}
+interface Dependency {
+    domain.[domain].port.dependency
+}
+class Hub {
+    domain.[domain].hub
+}
+class DependencyAdapter {
+    domain.[domain].adapter.dependency
+}
+class Model {
+    domain.[domain].model
+}
+class Deployable {
+    deployable.[deployableName]
+}
+Service --> Model : depends upon
+Dependency --> Model : depends upon
+
+Hub --> Service : depends upon [implements]
+Hub --> Dependency : depends upon [uses]
+DependencyAdapter -> Dependency : depends upon [implements]
+
+ServiceAdapterServer -> Service : depends upon [uses]
+ServiceAdapterClient -> Service : depends upon [implements]
+
+Deployable --> Hub : depends upon [creates]
+Deployable --> DependencyAdapter : depends upon [creates]
+Deployable --> ServiceAdapterClient : depends upon [creates]
+Deployable --> ServiceAdapterServer : depends upon [creates]
+
+note "the domain model does not have outgoing dependencies" as N1
+N1 ..> Model
+note "only dependency adapters can implement dependencies" as N2
+N2 ..> DependencyAdapter
+note "only hubs and service clients can implement services" as N3
+N3 ..> Hub
+N3 ..> ServiceAdapterClient
+    note "only deployables and service adapters can create service adapters\n(decoration)" as N4
+N4 ..> Deployable
+N4 ..> ServiceAdapterClient
+N4 ..> ServiceAdapterServer
+note "only deployables can create hubs" as N5
+N5 ..> Deployable
+note "only deployables and dependency adapters can create dependency adapters" as N6
+N6 ..> Deployable
+N6 ..> DependencyAdapter
+note "the services only depend upon the domain model" as N7
+N7 ..> Service
+note "the dependencies only depend upon the domain model" as N8
+N8 ..> Dependency
+note "the hub only depends upon the ports" as N9
+N9 ..> Hub
+
+@enduml

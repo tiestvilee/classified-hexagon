@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ServiceAdapterClient {
+    [domain].adapter.service
+}
+
+package deployable {
+    class ServiceAdapterServer {
+    [domain].adapter.service
+    }
+    package hub {
+        interface Service {
+            [domain].port.service
+        }
+        interface Dependency {
+            [domain].port.dependency
+        }
+        class Hub {
+            [domain].hub
+        }
+    }
+    class DependencyAdapter {
+        [domain].adapter.dependency
+    }
+}
+
+class Model {
+    [domain].model
+}
+
+Service <|-- Hub
+Service <|-- ServiceAdapterClient
+Dependency <|-- DependencyAdapter
+
+Hub *-- Dependency
+ServiceAdapterServer *-- Service
+
+note "might be a dependency on\nanother, internal 'Service'\n- implemented by a\nServiceAdapterClient" as N1
+Dependency <-[dotted]- N1
+DependencyAdapter <-[dotted]- N1
+ServiceAdapterClient <-[dotted]- N1
+ServiceAdapterClient -> ServiceAdapterServer : client\ncalls\nserver
+
+note "The Client and Server make\na 'symmetric' adapter" as N2
+N2 -[dotted]-> ServiceAdapterClient
+N2 -[dotted]-> ServiceAdapterServer
+
+Model <.. Service : shared\ndata model
+Model <.. ServiceAdapterClient : shared\ndata model
+Model <.. ServiceAdapterServer : shared\ndata model
+Model <.. Hub : shared\ndata model
+Model <.. Dependency : shared\ndata model
+Model <.. DependencyAdapter : shared\ndata model
+
+
+@enduml

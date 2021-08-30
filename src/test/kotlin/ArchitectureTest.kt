@@ -34,13 +34,47 @@ class ArchitectureTest {
             .that()
             .resideInAPackage("$domainModel..")
             .should()
-            .accessClassesThat()
+            .onlyDependOnClassesThat()
             .resideInAnyPackage(
                 "$domainHub..",
                 "$serviceAdapter..",
                 "$dependencyAdapter..",
                 "$dependencyPorts..",
                 "$servicePorts..",
+            )
+
+    @ArchTest
+    val `the services only depend upon the domain model` =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage("$servicePorts..")
+            .should()
+            .onlyDependOnClassesThat()
+            .resideInAnyPackage(
+                "$domainModel..",
+            )
+
+    @ArchTest
+    val `the hub only depends upon the ports` =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage("$domainHub..")
+            .should()
+            .onlyDependOnClassesThat()
+            .resideInAnyPackage(
+                "$servicePorts..",
+                "$dependencyPorts..",
+            )
+
+    @ArchTest
+    val `the dependencies only depend upon the domain model` =
+        ArchRuleDefinition.classes()
+            .that()
+            .resideInAPackage("$dependencyPorts..")
+            .should()
+            .onlyAccessClassesThat()
+            .resideInAnyPackage(
+                "$domainModel..",
             )
 
     @Test
@@ -61,7 +95,7 @@ class ArchitectureTest {
     }
 
     @Test
-    fun `only hubs and serviceAdapters can implement services`() {
+    fun `only hubs and service clients can implement services`() {
         val results = ClassFileImporter().importClasspath()
             .filter { it.name.contains(servicePorts) }
             .filter { it.isInterface }
@@ -81,7 +115,7 @@ class ArchitectureTest {
     }
 
     @Test
-    fun `only deployables can create service adapters`() {
+    fun `only deployables and service adapters can create service adapters`() {
         val results = ClassFileImporter().importClasspath()
             .filter { it.name.contains(serviceAdapter) }
             .flatMap { adapter ->
@@ -89,6 +123,26 @@ class ArchitectureTest {
                     val packageName = implementer.originOwner.packageName
                     if (packageName.contains(deployable) ||
                         packageName.contains(this.serviceAdapter) ||
+                        packageName.startsWith(test)
+                    ) {
+                        emptyList()
+                    } else {
+                        listOf("${implementer.originOwner.name} constructs ${adapter.name} but isn't in $deployable")
+                    }
+                }
+            }.toSet()
+        assertThat(results, isEmpty)
+    }
+
+    @Test
+    fun `only deployables and can create dependency adapters`() {
+        val results = ClassFileImporter().importClasspath()
+            .filter { it.name.contains(dependencyAdapter) }
+            .flatMap { adapter ->
+                adapter.constructorCallsToSelf.flatMap { implementer ->
+                    val packageName = implementer.originOwner.packageName
+                    if (packageName.contains(deployable) ||
+                        packageName.contains(this.dependencyAdapter) ||
                         packageName.startsWith(test)
                     ) {
                         emptyList()
